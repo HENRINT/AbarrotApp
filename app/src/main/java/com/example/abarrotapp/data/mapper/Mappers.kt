@@ -9,18 +9,24 @@ import com.example.abarrotapp.domain.model.User
 fun ProductoDto.toDomain(): Producto {
     return Producto(
         id = id ?: _id ?: "",
+        sku = sku ?: "",
         nombre = nombre ?: "",
+        categoria = categoria ?: "Abarrotes",
         precio = precio ?: 0.0,
         existencias = existencias ?: 0,
+        stockMinimo = stockMinimo ?: 5,
         caducidad = caducidad ?: ""
     )
 }
 
 fun Producto.toRequestDto(): ProductoRequestDto {
     return ProductoRequestDto(
+        sku = sku,
         nombre = nombre,
+        categoria = categoria,
         precio = precio,
         existencias = existencias,
+        stockMinimo = stockMinimo,
         caducidad = caducidad
     )
 }

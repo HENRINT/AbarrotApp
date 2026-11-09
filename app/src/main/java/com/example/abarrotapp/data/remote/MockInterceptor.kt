@@ -15,23 +15,62 @@ class MockInterceptor : Interceptor {
 
     private val json = Json { ignoreUnknownKeys = true }
 
-    // Lista en memoria para simular un backend dinámico durante pruebas CRUD
+    // Lista en memoria para simular un backend WMS dinámico durante pruebas CRUD
     private val productosList = mutableListOf(
         ProductoDto(
             id = "1",
             _id = "1",
+            sku = "LC-101",
             nombre = "Leche Entera 1L",
+            categoria = "Lácteos",
             precio = 25.50,
-            existencias = 50,
+            existencias = 3,
+            stockMinimo = 10,
             caducidad = "2026-12-31"
         ),
         ProductoDto(
             id = "2",
             _id = "2",
+            sku = "AR-202",
             nombre = "Arroz Blanco 1kg",
+            categoria = "Abarrotes",
             precio = 18.00,
             existencias = 30,
+            stockMinimo = 5,
             caducidad = "2027-06-15"
+        ),
+        ProductoDto(
+            id = "3",
+            _id = "3",
+            sku = "EN-303",
+            nombre = "Atún en Agua 140g",
+            categoria = "Enlatados",
+            precio = 19.50,
+            existencias = 2,
+            stockMinimo = 8,
+            caducidad = "2028-01-20"
+        ),
+        ProductoDto(
+            id = "4",
+            _id = "4",
+            sku = "BE-404",
+            nombre = "Jugo de Naranja 1L",
+            categoria = "Bebidas",
+            precio = 22.00,
+            existencias = 15,
+            stockMinimo = 5,
+            caducidad = "2026-11-30"
+        ),
+        ProductoDto(
+            id = "5",
+            _id = "5",
+            sku = "LM-505",
+            nombre = "Detergente Líquido 1L",
+            categoria = "Limpieza",
+            precio = 45.00,
+            existencias = 12,
+            stockMinimo = 4,
+            caducidad = "2029-05-10"
         )
     )
 
@@ -64,9 +103,12 @@ class MockInterceptor : Interceptor {
                                 ?: ProductoDto(
                                     id = lastSegment,
                                     _id = lastSegment,
+                                    sku = "SKU-$lastSegment",
                                     nombre = "Producto $lastSegment",
+                                    categoria = "Abarrotes",
                                     precio = 25.50,
                                     existencias = 10,
+                                    stockMinimo = 5,
                                     caducidad = "2026-12-31"
                                 )
                             200 to json.encodeToString(producto)
@@ -87,18 +129,24 @@ class MockInterceptor : Interceptor {
                             ProductoDto(
                                 id = newId,
                                 _id = newId,
+                                sku = req.sku ?: "SKU-$newId",
                                 nombre = req.nombre,
+                                categoria = req.categoria ?: "Abarrotes",
                                 precio = req.precio,
                                 existencias = req.existencias,
-                                caducidad = req.caducidad
+                                stockMinimo = req.stockMinimo ?: 5,
+                                caducidad = req.caducidad ?: ""
                             )
                         } catch (_: Exception) {
                             ProductoDto(
                                 id = newId,
                                 _id = newId,
+                                sku = "SKU-$newId",
                                 nombre = "Nuevo Producto",
+                                categoria = "Abarrotes",
                                 precio = 35.00,
                                 existencias = 10,
+                                stockMinimo = 5,
                                 caducidad = "2026-11-30"
                             )
                         }
@@ -118,18 +166,24 @@ class MockInterceptor : Interceptor {
                             ProductoDto(
                                 id = lastSegment,
                                 _id = lastSegment,
+                                sku = req.sku ?: "SKU-$lastSegment",
                                 nombre = req.nombre,
+                                categoria = req.categoria ?: "Abarrotes",
                                 precio = req.precio,
                                 existencias = req.existencias,
-                                caducidad = req.caducidad
+                                stockMinimo = req.stockMinimo ?: 5,
+                                caducidad = req.caducidad ?: ""
                             )
                         } catch (_: Exception) {
                             ProductoDto(
                                 id = lastSegment,
                                 _id = lastSegment,
+                                sku = "SKU-$lastSegment",
                                 nombre = "Producto Editado",
+                                categoria = "Abarrotes",
                                 precio = 29.99,
                                 existencias = 20,
+                                stockMinimo = 5,
                                 caducidad = "2026-12-31"
                             )
                         }
