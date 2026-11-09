@@ -25,16 +25,16 @@ interface ProductoDao {
     suspend fun insertProducto(producto: ProductoEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(productos: List<ProductoEntity>)
+    suspend fun insertAll(productos: List<ProductoEntity>): List<Long>
 
     @Update
-    suspend fun updateProducto(producto: ProductoEntity)
+    suspend fun updateProducto(producto: ProductoEntity): Int
 
     @Delete
-    suspend fun deleteProducto(producto: ProductoEntity)
+    suspend fun deleteProducto(producto: ProductoEntity): Int
 
     @Query("DELETE FROM productos WHERE id = :id")
-    suspend fun deleteProductoById(id: Long)
+    suspend fun deleteProductoById(id: Long): Int
 
     @Query("SELECT * FROM productos WHERE existencias <= stockMinimo")
     fun getProductosStockBajoFlow(): Flow<List<ProductoEntity>>

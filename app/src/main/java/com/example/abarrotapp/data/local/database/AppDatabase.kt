@@ -32,6 +32,7 @@ abstract class AppDatabase : RoomDatabase() {
                     "abarrotes_database"
                 )
                     .addCallback(AppDatabaseCallback(scope))
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance
@@ -45,7 +46,7 @@ abstract class AppDatabase : RoomDatabase() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
                 INSTANCE?.let { database ->
-                    scope.launch {
+                    scope.launch(Dispatchers.IO) {
                         populateSeedData(database.productoDao())
                     }
                 }
