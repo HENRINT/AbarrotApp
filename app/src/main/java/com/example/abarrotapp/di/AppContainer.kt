@@ -2,6 +2,7 @@ package com.example.abarrotapp.di
 
 import android.content.Context
 import com.example.abarrotapp.data.local.SharedPreferencesSessionStorage
+import com.example.abarrotapp.data.local.database.AppDatabase
 import com.example.abarrotapp.data.remote.AuthApiService
 import com.example.abarrotapp.data.remote.AuthInterceptor
 import com.example.abarrotapp.data.remote.MockInterceptor
@@ -30,6 +31,10 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
 
     override val sessionStorage: SessionStorage by lazy {
         SharedPreferencesSessionStorage(context)
+    }
+
+    private val appDatabase: AppDatabase by lazy {
+        AppDatabase.getDatabase(context)
     }
 
     private val mockInterceptor: MockInterceptor by lazy {
@@ -81,6 +86,6 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
     }
 
     override val productoRepository: ProductoRepository by lazy {
-        ProductoRepositoryImpl(productoApiService)
+        ProductoRepositoryImpl(productoApiService, appDatabase.productoDao())
     }
 }

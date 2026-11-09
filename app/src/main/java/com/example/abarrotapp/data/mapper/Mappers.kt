@@ -3,6 +3,7 @@ package com.example.abarrotapp.data.mapper
 import com.example.abarrotapp.data.dto.AuthResponseDto
 import com.example.abarrotapp.data.dto.ProductoDto
 import com.example.abarrotapp.data.dto.ProductoRequestDto
+import com.example.abarrotapp.data.local.entity.ProductoEntity
 import com.example.abarrotapp.domain.model.Producto
 import com.example.abarrotapp.domain.model.User
 
@@ -21,6 +22,32 @@ fun ProductoDto.toDomain(): Producto {
 
 fun Producto.toRequestDto(): ProductoRequestDto {
     return ProductoRequestDto(
+        sku = sku,
+        nombre = nombre,
+        categoria = categoria,
+        precio = precio,
+        existencias = existencias,
+        stockMinimo = stockMinimo,
+        caducidad = caducidad
+    )
+}
+
+fun ProductoEntity.toDomain(): Producto {
+    return Producto(
+        id = id.toString(),
+        sku = sku,
+        nombre = nombre,
+        categoria = categoria,
+        precio = precio,
+        existencias = existencias,
+        stockMinimo = stockMinimo,
+        caducidad = caducidad
+    )
+}
+
+fun Producto.toEntity(): ProductoEntity {
+    return ProductoEntity(
+        id = id.toLongOrNull() ?: 0L,
         sku = sku,
         nombre = nombre,
         categoria = categoria,
